@@ -1,0 +1,15 @@
+services:
+  mysql:
+    image: "mysql:8.0"
+    container_name: authpractice-mysql
+    environment:
+      MYSQL_DATABASE: auth_practice
+      MYSQL_ROOT_PASSWORD: rptdoa7127!#
+      TZ: Asia/Seoul
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
