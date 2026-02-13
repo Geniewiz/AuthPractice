@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -18,6 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -71,7 +71,7 @@ class RefreshTokenServiceTest {
         assertThat(rotated.refreshPlain()).isNotEqualTo(oldPlain);
         assertThat(rt.isRevoked()).isTrue(); // 기존 토큰은 revoke 되어야 함
         verify(repo).save(rt); // 기존 토큰 업데이트
-        verify(repo).save(any(RefreshToken.class)); // 새 토큰 저장 (총 2번의 save 호출: 기존꺼 업데이트 + 새꺼 저장)
+        verify(repo, times(2)).save(any(RefreshToken.class)); // 기존 토큰 업데이트 + 새 토큰 저장
     }
 
     @Test
